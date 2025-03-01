@@ -2,12 +2,14 @@ import React from 'react'
 import { Dimensions, Image, Text, TouchableWithoutFeedback, View } from 'react-native';
 import Carousel from 'react-native-snap-carousel';
 import { router } from 'expo-router';
+import { image500 } from '@/api/moviedb';
 
 var { width, height } = Dimensions.get('window');
 
 interface Movie {
     id: number;
     title: string;
+    poster_path: string;
     // Add other relevant properties
 }
 
@@ -49,7 +51,8 @@ const MovieCard: React.FC<MovieCardProps> = ({item}) => {
     return (
         <TouchableWithoutFeedback onPress={handleClick}>
             <Image 
-                source={require('../assets/images/captainmarvel.jpg')}
+                // source={require('../assets/images/captainmarvel.jpg')}
+                source={{ uri: image500(item?.poster_path)}}
                 style={{ width: width*0.6, height: height*0.4 }}
                 className='rounded-3xl'
             />

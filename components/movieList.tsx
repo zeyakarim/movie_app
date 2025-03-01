@@ -1,3 +1,4 @@
+import { fallbackMoviePoster, image185 } from '@/api/moviedb';
 import { styles } from '@/theme'
 import { router } from 'expo-router';
 import React from 'react'
@@ -6,7 +7,6 @@ import { Dimensions, Image, ScrollView, Text, TouchableOpacity, TouchableWithout
 var { width, height } = Dimensions.get('window');
 
 const MovieList = ({ data, title, hideSeeAll }) => {
-    const movie_name = 'Anti-Man and the Wasp: Quantumania';
 
     return (
         <View className='mb-8 space-y-4'>
@@ -34,12 +34,13 @@ const MovieList = ({ data, title, hideSeeAll }) => {
                             >
                                <View className='space-y-1 mr-4'>
                                     <Image 
-                                        source={require('../assets/images/quantumania.jpeg')}
+                                        // source={require('../assets/images/quantumania.jpeg')}
+                                        source={{ uri: image185(item?.poster_path) || fallbackMoviePoster}}
                                         className='rounded-3xl'
                                         style={{ width: width*0.33, height: height*0.22}}
                                     />
                                     <Text className='text-neutral-300 ml-1'>
-                                        {movie_name?.length > 14? movie_name?.slice(0, 14)+'...': movie_name}
+                                        {item?.title?.length > 14? item?.title?.slice(0, 14)+'...': item?.title}
                                     </Text>
                                </View>
                             </TouchableWithoutFeedback>
