@@ -1,8 +1,7 @@
 import React from 'react'
 import { Dimensions, Image, Text, TouchableWithoutFeedback, View } from 'react-native';
 import Carousel from 'react-native-snap-carousel';
-// import { useNavigation } from '@react-navigation/native';
-import { useNavigation } from 'expo-router';
+import { router } from 'expo-router';
 
 var { width, height } = Dimensions.get('window');
 
@@ -44,10 +43,8 @@ interface MovieCardProps {
 }
 
 const MovieCard: React.FC<MovieCardProps> = ({item}) => {
-    const navigation = useNavigation()
-
     const handleClick = () => {
-        navigation.navigate('Movie', item)
+        router.push('/movie', item)
     }
     return (
         <TouchableWithoutFeedback onPress={handleClick}>

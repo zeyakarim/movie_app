@@ -1,22 +1,22 @@
 import { styles } from '@/theme'
-import { useNavigation } from 'expo-router';
+import { router } from 'expo-router';
 import React from 'react'
 import { Dimensions, Image, ScrollView, Text, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native';
 
 var { width, height } = Dimensions.get('window');
 
-const MovieList = ({ data, title }) => {
+const MovieList = ({ data, title, hideSeeAll }) => {
     const movie_name = 'Anti-Man and the Wasp: Quantumania';
-    const navigation = useNavigation()
-
 
     return (
         <View className='mb-8 space-y-4'>
             <View className='mx-4 flex-row justify-between items-center'>
                 <Text className='text-white text-xl'>{title}</Text>
-                <TouchableOpacity>
-                    <Text style={styles.text} className='text-lg'>See All</Text>
-                </TouchableOpacity>
+                {!hideSeeAll && (
+                    <TouchableOpacity>
+                        <Text style={styles.text} className='text-lg'>See All</Text>
+                    </TouchableOpacity>
+                )}
             </View>
 
             {/* movie row */}
@@ -30,7 +30,7 @@ const MovieList = ({ data, title }) => {
                         return (
                             <TouchableWithoutFeedback 
                                 key={index}
-                                onPress={() => navigation.navigate('Movie', item)}
+                                onPress={() => router.push('/movie', item)}
                             >
                                <View className='space-y-1 mr-4'>
                                     <Image 
