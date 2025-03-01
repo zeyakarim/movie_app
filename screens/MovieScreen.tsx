@@ -7,6 +7,7 @@ import { HeartIcon } from 'react-native-heroicons/solid';
 import { LinearGradient } from 'expo-linear-gradient';
 import Cast from '@/components/cast';
 import MovieList from '@/components/movieList';
+import Loading from '@/components/loading';
 
 var { width, height } = Dimensions.get('window')
 const ios = Platform.OS === 'ios';
@@ -17,6 +18,7 @@ const MovieScreen = () => {
     const [cast, setCast] = useState([1,2,3,4,5])
     const [similarMovies, setSimilarMovies] = useState([1,2,3,4])
     const { params: item } = useLocalSearchParams();
+    const [loading, setLoading] = useState(false)
 
     const movie_name = 'Anti-Man and the Wasp: Quantumania';
 
@@ -39,19 +41,23 @@ const MovieScreen = () => {
                     </TouchableOpacity>
                 </SafeAreaView>
 
-                <View>
-                    <Image 
-                        source={require('../assets/images/quantumania.jpeg')}
-                        style={{width, height: height*0.55}}
-                    />
-                    <LinearGradient 
-                        colors={['transparent', 'rgba(23,23,23,0.8)', 'rgba(23,23,23,1)']}
-                        style={{width, height: height*0.40}}
-                        start={{x:0.5, y:0}}
-                        end={{x:0.5, y: 1}}
-                        className='absolute bottom-0'
-                    />  
-                </View>
+                {loading ? (
+                    <Loading />
+                ) : (
+                    <View>
+                        <Image 
+                            source={require('../assets/images/quantumania.jpeg')}
+                            style={{width, height: height*0.55}}
+                        />
+                        <LinearGradient 
+                            colors={['transparent', 'rgba(23,23,23,0.8)', 'rgba(23,23,23,1)']}
+                            style={{width, height: height*0.40}}
+                            start={{x:0.5, y:0}}
+                            end={{x:0.5, y: 1}}
+                            className='absolute bottom-0'
+                        />  
+                    </View>
+                )}
             </View>
 
             {/* Movie Details View */}

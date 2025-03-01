@@ -4,6 +4,8 @@ import { styles } from '../theme'
 import TrendingMovies from '@/components/trendingMovies';
 import { useState } from 'react';
 import MovieList from '@/components/movieList';
+import { router } from 'expo-router';
+import Loading from '@/components/loading';
 
 const ios = Platform.OS === 'ios';
 
@@ -11,6 +13,7 @@ const HomeScreen = () => {
     const [trendingMovies, setTrendingMovies] = useState([1,2,3,4]);
     const [upcomingMovies, setUpcomingMovies] = useState([1,2,3,4]);
     const [topRatedMovies, setTopRatedMovies] = useState([1,2,3,4]);
+    const [loading, setLoading] = useState(false)
 
     return (
         <View className='flex-1 bg-neutral-800'>
@@ -21,25 +24,29 @@ const HomeScreen = () => {
                     <Text className='text-white text-3xl font-bold'>
                         <Text style={styles.text}>M</Text>ovies
                     </Text>
-                    <TouchableOpacity>
+                    <TouchableOpacity onPress={() => router.push('/search')}>
                         <MagnifyingGlassIcon size={30} color='white' />
                     </TouchableOpacity>
                 </View>
             </SafeAreaView>
 
-            <ScrollView 
-                showsVerticalScrollIndicator={false}
-                contentContainerStyle={{ paddingBottom: 10 }}
-            >
-                {/* Trending movie carousel */}
-                <TrendingMovies data={trendingMovies} />
+            {loading ? (
+                <Loading />
+            ) : (
+                <ScrollView 
+                    showsVerticalScrollIndicator={false}
+                    contentContainerStyle={{ paddingBottom: 10 }}
+                >
+                    {/* Trending movie carousel */}
+                    <TrendingMovies data={trendingMovies} />
 
-                {/* Upcoming Movie */}
-                <MovieList data={upcomingMovies} title='Upcoming Movie' />
+                    {/* Upcoming Movie */}
+                    <MovieList data={upcomingMovies} title='Upcoming Movie' hideSeeAll={false} />
 
-                {/* Top Rated Movie */}
-                <MovieList data={trendingMovies} title='Trending Movie' />
-            </ScrollView>
+                    {/* Top Rated Movie */}
+                    <MovieList data={topRatedMovies} title='Top Rated Movie' hideSeeAll={false} />
+                </ScrollView>
+            )}
         </View>
     )
 }
