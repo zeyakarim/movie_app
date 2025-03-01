@@ -1,6 +1,6 @@
 import { Stack } from 'expo-router';
 
-export default function MovieLayout() {
+export default function PersonLayout() {
 
   return (
     <Stack>
