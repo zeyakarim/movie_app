@@ -1,13 +1,22 @@
 import React from 'react'
 import { Dimensions, Image, Text, TouchableWithoutFeedback, View } from 'react-native';
 import Carousel from 'react-native-snap-carousel';
-// import { useSharedValue } from "react-native-reanimated";
-// import Carousel from "react-native-reanimated-carousel";
+// import { useNavigation } from '@react-navigation/native';
+import { useNavigation } from 'expo-router';
 
+var { width, height } = Dimensions.get('window');
 
-var { width, height } = Dimensions.get('window')
+interface Movie {
+    id: number;
+    title: string;
+    // Add other relevant properties
+}
 
-const TrendingMovies = ({ data }) => {
+interface TrendingMoviesProps {
+    data: Movie[];
+}
+
+const TrendingMovies: React.FC<TrendingMoviesProps> = ({ data }) => {
     // const progress = useSharedValue<number>(0);
     // const itemsInView = 2;
 
@@ -23,50 +32,6 @@ const TrendingMovies = ({ data }) => {
                 itemWidth={width*0.62}
                 slideStyle={{ display: 'flex', alignItems: 'center'}}
             />
-            {/* <Carousel
-				autoPlayInterval={2000}
-				data={data}
-				height={258}
-				loop={true}
-				pagingEnabled={true}
-				snapEnabled={true}
-				width={width}
-				style={{
-					width: width*0.62,
-				}}
-				mode="parallax"
-				modeConfig={{
-					parallaxScrollingScale: 0.9,
-					parallaxScrollingOffset: 50,
-				}}
-				onProgressChange={progress}
-                renderItem={({item}) => <MovieCard item={item} /> }
-				// renderItem={renderItem({ rounded: true })}
-                
-                
-			/> */}
-            {/* <Carousel
-                autoPlayInterval={2000}
-                data={data}
-                height={258}
-                loop={true}
-                pagingEnabled={true}
-                snapEnabled={true}
-                width={width / itemsInView}
-                style={{
-                    width: width,
-                    display: 'flex',
-                    alignItems: 'center'
-                }}
-                mode="parallax"
-                modeConfig={{
-                    parallaxScrollingScale: 0.9,
-                    parallaxScrollingOffset: 50,
-                }}
-                onProgressChange={progress}
-                renderItem={({ item }) => <MovieCard item={item} />}
-            /> */}
-
         </View>
 
     )
@@ -74,10 +39,18 @@ const TrendingMovies = ({ data }) => {
 
 export default TrendingMovies;
 
+interface MovieCardProps {
+    item: Movie
+}
 
-const MovieCard = ({item}) => {
+const MovieCard: React.FC<MovieCardProps> = ({item}) => {
+    const navigation = useNavigation()
+
+    const handleClick = () => {
+        navigation.navigate('Movie', item)
+    }
     return (
-        <TouchableWithoutFeedback>
+        <TouchableWithoutFeedback onPress={handleClick}>
             <Image 
                 source={require('../assets/images/captainmarvel.jpg')}
                 style={{ width: width*0.6, height: height*0.4 }}
