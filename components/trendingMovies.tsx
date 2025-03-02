@@ -44,7 +44,7 @@ interface MovieCardProps {
 const MovieCard: React.FC<MovieCardProps> = ({item}) => {
     const handleClick = () => {
         router.push({
-            pathname: '/movie',
+            pathname: `/movies/${item?.id}`,
             params: { item: JSON.stringify(item) }
         })
     }

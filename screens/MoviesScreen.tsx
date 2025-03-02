@@ -11,6 +11,7 @@ const ios = Platform.OS === 'ios';
 const verticalMargin = ios ? '': 'my-3';
 
 interface Movies {
+    id: number;
     poster_path: string;
     title: string;
     // Add other expected properties
@@ -62,7 +63,7 @@ const MoviesScreen: React.FC<MoviesScreenProps> = ({ title }) => {
                                     <TouchableWithoutFeedback
                                         key={index}
                                         onPress={() => router.push({
-                                            pathname: '/movie',
+                                            pathname: `/movies/${item?.id}`,
                                             params: { item: JSON.stringify(item) }
                                         })}
                                     >

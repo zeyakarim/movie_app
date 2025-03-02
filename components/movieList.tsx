@@ -50,7 +50,7 @@ const MovieList: React.FC<MovieListsProps> = ({ data, title, hideSeeAll }) => {
                             <TouchableWithoutFeedback 
                                 key={index}
                                 onPress={() => router.push({
-                                    pathname: '/movie',
+                                    pathname: `/movies/${item?.id}`,
                                     params: { item: JSON.stringify(item) }
                                 })}
                             >

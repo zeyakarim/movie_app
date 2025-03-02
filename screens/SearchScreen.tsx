@@ -9,6 +9,7 @@ import { fallbackMoviePoster, image185, searchMovies } from '@/api/moviedb';
 var { width, height } = Dimensions.get('window');
 
 interface SearchResults {
+    id: number;
     poster_path: string;
     title: string;
     // Add other expected properties
@@ -81,7 +82,7 @@ const SearchScreen = () => {
                                     <TouchableWithoutFeedback
                                         key={index}
                                         onPress={() => router.push({
-                                            pathname: '/movie',
+                                            pathname: `/movies/${item?.id}`,
                                             params: { item: JSON.stringify(item) }
                                         })}
                                     >
