@@ -16,6 +16,7 @@ export const image185 = path => path ? `${apiImageBaseUrl}/w185/${path}`: null;
 const movieDetailsEndpoint = id => `${apiBaseUrl}/movie/${id}?api_key=${apiKey}`;
 const movieCreditsEndpoint = id => `${apiBaseUrl}/movie/${id}/credits?api_key=${apiKey}`;
 const similarMoviesEndpoint = id => `${apiBaseUrl}/movie/${id}/similar?api_key=${apiKey}`;
+const searchMoviesEndpoint = `${apiBaseUrl}/search/movie?api_key=${apiKey}`;
 
 // person details
 const personDetailsEndpoint = id => `${apiBaseUrl}/person/${id}?api_key=${apiKey}`;
@@ -69,4 +70,8 @@ export const fetchPersonDetails = (id) => {
 
 export const fetchPersonMovies = (id) => {
     return apiCall(personMoviesEndpoint(id))
+}
+
+export const searchMovies = (params) => {
+    return apiCall(searchMoviesEndpoint, params)
 }

@@ -67,7 +67,7 @@ const HomeScreen = () => {
                     {upcomingMovies?.length > 0 && <MovieList data={upcomingMovies} title='Upcoming Movie' hideSeeAll={false} /> }
 
                     {/* Top Rated Movie */}
-                    <MovieList data={topRatedMovies} title='Top Rated Movie' hideSeeAll={false} />
+                    {topRatedMovies?.length > 0 && <MovieList data={topRatedMovies} title='Top Rated Movie' hideSeeAll={false} /> }
                 </ScrollView>
             )}
         </View>
