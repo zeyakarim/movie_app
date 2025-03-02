@@ -14,12 +14,32 @@ var { width, height } = Dimensions.get('window')
 const ios = Platform.OS === 'ios';
 const topMargin = ios ? '': 'mt-3';
 
-const MovieScreen = ({ item }) => {
+interface MovieProps {
+    item: { id: number };
+    // Add other expected properties
+}
+
+interface Genre {
+    name: string;
+}
+interface Movie {
+    id: number;
+    title: string;
+    poster_path: string;
+    status: string;
+    release_date: string;
+    runtime: number;
+    genres: Genre[];
+    overview: string;
+    // Add other relevant properties
+}
+
+const MovieScreen: React.FC<MovieProps> = ({ item }) => {
     const [isFavourate, setIsFavourate] = useState(false);
     const [cast, setCast] = useState([])
     const [similarMovies, setSimilarMovies] = useState([])
     const [loading, setLoading] = useState(false)
-    const [movie, setMovie] = useState({})
+    const [movie, setMovie] = useState<Movie | null>(null);
 
     useEffect(() => {
         setLoading(true);
@@ -28,18 +48,18 @@ const MovieScreen = ({ item }) => {
         getSimilarMovies(item?.id)
     }, [item])
 
-    const getMovieDetails = async (id) => {
+    const getMovieDetails = async (id: number) => {
         const data = await fetchMovieDetails(id)
         if (data) setMovie(data)
         setLoading(false)
     }
 
-    const getMovieCredits = async (id) => {
+    const getMovieCredits = async (id: number) => {
         const data = await fetchMovieCredits(id)
         if (data && data?.cast) setCast(data?.cast)
     }
 
-    const getSimilarMovies = async (id) => {
+    const getSimilarMovies = async (id: number) => {
         const data = await fetchSimilarMovies(id)
         if (data && data?.results) setSimilarMovies(data?.results)
     }
