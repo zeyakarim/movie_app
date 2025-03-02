@@ -12,8 +12,13 @@ export const image500 = path => path ? `${apiImageBaseUrl}/w500/${path}`: null;
 export const image342 = path => path ? `${apiImageBaseUrl}/w342/${path}`: null;
 export const image185 = path => path ? `${apiImageBaseUrl}/w185/${path}`: null;
 
+// dynamic endpoints
+const movieDetailsEndpoint = id => `${apiBaseUrl}/movie/${id}?api_key=${apiKey}`;
+const movieCreditsEndpoint = id => `${apiBaseUrl}/movie/${id}/credits?api_key=${apiKey}`;
+const similarMoviesEndpoint = id => `${apiBaseUrl}/movie/${id}/similar?api_key=${apiKey}`;
+
 export const fallbackMoviePoster = `https://www.prokerala.com/movies/assets/img/no-poster-available.jpg`;
-export const fallbackPersonImage = `https://cdn-icons-png.flaticon.com/512/666/666175.png`
+export const fallbackPersonImage = `https://cdn-icons-png.flaticon.com/512/1177/1177568.png`
 
 const apiCall = async (endpoint, params) => {
     const options = {
@@ -40,4 +45,16 @@ export const fetchUpcomingMovies = () => {
 
 export const fetchTopRatedMovies = () => {
     return apiCall(topRatedMoviesEndpoint);
+}
+
+export const fetchMovieDetails = (id) => {
+    return apiCall(movieDetailsEndpoint(id))
+}
+
+export const fetchMovieCredits = (id) => {
+    return apiCall(movieCreditsEndpoint(id))
+}
+
+export const fetchSimilarMovies = (id) => {
+    return apiCall(similarMoviesEndpoint(id))
 }

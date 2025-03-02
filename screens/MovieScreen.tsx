@@ -8,23 +8,41 @@ import { LinearGradient } from 'expo-linear-gradient';
 import Cast from '@/components/cast';
 import MovieList from '@/components/movieList';
 import Loading from '@/components/loading';
+import { fallbackMoviePoster, fetchMovieCredits, fetchMovieDetails, fetchSimilarMovies, image500 } from '@/api/moviedb';
 
 var { width, height } = Dimensions.get('window')
 const ios = Platform.OS === 'ios';
 const topMargin = ios ? '': 'mt-3';
 
-const MovieScreen = () => {
+const MovieScreen = ({ item }) => {
     const [isFavourate, setIsFavourate] = useState(false);
-    const [cast, setCast] = useState([1,2,3,4,5])
-    const [similarMovies, setSimilarMovies] = useState([1,2,3,4])
-    const { params: item } = useLocalSearchParams();
+    const [cast, setCast] = useState([])
+    const [similarMovies, setSimilarMovies] = useState([])
     const [loading, setLoading] = useState(false)
-
-    const movie_name = 'Anti-Man and the Wasp: Quantumania';
+    const [movie, setMovie] = useState({})
 
     useEffect(() => {
-        // call the movie details api
+        setLoading(true);
+        getMovieDetails(item?.id);
+        getMovieCredits(item?.id);
+        getSimilarMovies(item?.id)
     }, [])
+
+    const getMovieDetails = async (id) => {
+        const data = await fetchMovieDetails(id)
+        if (data) setMovie(data)
+        setLoading(false)
+    }
+
+    const getMovieCredits = async (id) => {
+        const data = await fetchMovieCredits(id)
+        if (data && data?.cast) setCast(data?.cast)
+    }
+
+    const getSimilarMovies = async (id) => {
+        const data = await fetchSimilarMovies(id)
+        if (data && data?.results) setSimilarMovies(data?.results)
+    }
 
     return (
         <ScrollView
@@ -46,7 +64,8 @@ const MovieScreen = () => {
                 ) : (
                     <View>
                         <Image 
-                            source={require('../assets/images/quantumania.jpeg')}
+                            // source={require('../assets/images/quantumania.jpeg')}
+                            source={{uri: image500(movie?.poster_path) || fallbackMoviePoster}}
                             style={{width, height: height*0.55}}
                         />
                         <LinearGradient 
@@ -64,34 +83,34 @@ const MovieScreen = () => {
             <View style={{marginTop:- (height*0.09)}} className='space-y-3'>
                 {/* movie title */}
                 <Text className='text-white text-center text-3xl font-bold tracking-wider'>
-                    {movie_name}
+                    {movie?.title}
                 </Text>
 
-                {/* status, release, runtime */}
-                <Text className='text-neutral-400 font-semibold text-base text-center'>
-                    Released • 2020 • 170 min
-                </Text>
+                {movie?.id ? (
+                    <Text className='text-neutral-400 font-semibold text-base text-center'>
+                        {movie?.status} • {movie?.release_date?.split('-')[0]} • {movie?.runtime} min
+                    </Text>
+                ) : null}
 
                 {/* genres */}
                 <View className='flex-row justify-center mx-4 space-x-2'>
-                    <Text className='text-neutral-400 font-semibold text-base text-center'>
-                        Action •
-                    </Text>
-                    <Text className='text-neutral-400 font-semibold text-base text-center'>
-                        Thrill •
-                    </Text>
-                    <Text className='text-neutral-400 font-semibold text-base text-center'>
-                        Comedy
-                    </Text>
+                    {movie?.genres?.map((genre, index) => {
+                        let showDot = index + 1 !== movie?.genres?.length
+                        return (
+                            <Text key={index} className='text-neutral-400 font-semibold text-base text-center'>
+                                {genre?.name} {showDot ? '•': null}
+                            </Text>
+                        )
+                    })}
                 </View>
 
                 <Text className='text-neutral-400 mx-4 tracking-wide'>
-                    Lorem ipsum dolor sit, amet consectetur adipisicing elit. Minima culpa ullam inventore modi ab, obcaecati exercitationem asperiores corrupti? Quos pariatur dolor quasi placeat iusto sequi, totam consequatur animi ipsum dolore.
+                    {movie?.overview}
                 </Text>
             </View>
 
             {/* cast */}
-            <Cast cast={cast} />
+            {cast?.length >0 && <Cast cast={cast} /> }
 
             {/* similar movies */}
             <MovieList data={similarMovies} title='Similar Movie' hideSeeAll={true} />

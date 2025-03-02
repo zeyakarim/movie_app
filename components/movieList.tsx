@@ -30,7 +30,10 @@ const MovieList = ({ data, title, hideSeeAll }) => {
                         return (
                             <TouchableWithoutFeedback 
                                 key={index}
-                                onPress={() => router.push('/movie', item)}
+                                onPress={() => router.push({
+                                    pathname: '/movie',
+                                    params: { item: JSON.stringify(item) }
+                                })}
                             >
                                <View className='space-y-1 mr-4'>
                                     <Image 
