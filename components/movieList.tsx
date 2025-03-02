@@ -20,12 +20,19 @@ interface MovieListsProps {
 
 const MovieList: React.FC<MovieListsProps> = ({ data, title, hideSeeAll }) => {
 
+    const handleMovies = () => {
+        router.push({
+            pathname: '/movies',
+            params: { title: title }
+        })
+    }
+
     return (
         <View className='mb-8 space-y-4'>
             <View className='mx-4 flex-row justify-between items-center'>
                 <Text className='text-white text-xl'>{title}</Text>
                 {!hideSeeAll && (
-                    <TouchableOpacity>
+                    <TouchableOpacity onPress={handleMovies}>
                         <Text style={styles.text} className='text-lg'>See All</Text>
                     </TouchableOpacity>
                 )}
