@@ -46,7 +46,10 @@ interface MovieCardProps {
 
 const MovieCard: React.FC<MovieCardProps> = ({item}) => {
     const handleClick = () => {
-        router.push('/movie', item)
+        router.push({
+            pathname: '/movie',
+            params: { item: JSON.stringify(item) }
+        })
     }
     return (
         <TouchableWithoutFeedback onPress={handleClick}>

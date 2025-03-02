@@ -18,7 +18,10 @@ const Cast = ({ cast }) => {
                         <TouchableOpacity 
                             key={index}
                             className='mr-4 items-center'
-                            onPress={() => router.push('/person', person)}
+                            onPress={() => router.push({
+                                pathname: '/person',
+                                params: { person: JSON.stringify(person) }
+                            })}
                         >
                             <View className='overflow-hidden rounded-full h-20 w-20 items-center border border-neutral-500'>
                                 <Image 

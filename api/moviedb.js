@@ -17,6 +17,10 @@ const movieDetailsEndpoint = id => `${apiBaseUrl}/movie/${id}?api_key=${apiKey}`
 const movieCreditsEndpoint = id => `${apiBaseUrl}/movie/${id}/credits?api_key=${apiKey}`;
 const similarMoviesEndpoint = id => `${apiBaseUrl}/movie/${id}/similar?api_key=${apiKey}`;
 
+// person details
+const personDetailsEndpoint = id => `${apiBaseUrl}/person/${id}?api_key=${apiKey}`;
+const personMoviesEndpoint = id => `${apiBaseUrl}/person/${id}/movie_credits?api_key=${apiKey}`;
+
 export const fallbackMoviePoster = `https://www.prokerala.com/movies/assets/img/no-poster-available.jpg`;
 export const fallbackPersonImage = `https://cdn-icons-png.flaticon.com/512/1177/1177568.png`
 
@@ -57,4 +61,12 @@ export const fetchMovieCredits = (id) => {
 
 export const fetchSimilarMovies = (id) => {
     return apiCall(similarMoviesEndpoint(id))
+}
+
+export const fetchPersonDetails = (id) => {
+    return apiCall(personDetailsEndpoint(id))
+}
+
+export const fetchPersonMovies = (id) => {
+    return apiCall(personMoviesEndpoint(id))
 }

@@ -26,7 +26,7 @@ const MovieScreen = ({ item }) => {
         getMovieDetails(item?.id);
         getMovieCredits(item?.id);
         getSimilarMovies(item?.id)
-    }, [])
+    }, [item])
 
     const getMovieDetails = async (id) => {
         const data = await fetchMovieDetails(id)
