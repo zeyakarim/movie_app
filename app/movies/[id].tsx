@@ -1,12 +1,13 @@
-import MovieScreen from '@/screens/MovieScreen'
-import { useLocalSearchParams } from 'expo-router'
+
+import { useLocalSearchParams } from 'expo-router';
+import MovieDetailsScreen from '@/screens/MovieDetailsScreen'
 import React from 'react'
 
 const Movie = () => {
     const { item } = useLocalSearchParams();
 
     return (
-        <MovieScreen item={item ? JSON.parse(item as string) : {}} />
+        <MovieDetailsScreen item={item ? JSON.parse(item as string) : {}} />
     )
 }
 

@@ -34,7 +34,7 @@ interface Movie {
     // Add other relevant properties
 }
 
-const MovieScreen: React.FC<MovieProps> = ({ item }) => {
+const MovieDetailsScreen: React.FC<MovieProps> = ({ item }) => {
     const [isFavourate, setIsFavourate] = useState(false);
     const [cast, setCast] = useState([])
     const [similarMovies, setSimilarMovies] = useState([])
@@ -138,4 +138,4 @@ const MovieScreen: React.FC<MovieProps> = ({ item }) => {
     )
 }
 
-export default MovieScreen;
+export default MovieDetailsScreen;
