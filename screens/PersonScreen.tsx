@@ -12,11 +12,33 @@ var { width, height } = Dimensions.get('window');
 const ios = Platform.OS === 'ios';
 const verticalMargin = ios ? '': 'my-3';
 
-const PersonScreen = ({ item }) => {
+
+interface Person {
+    id: number;
+    poster_path: string;
+    // Add other relevant properties
+}
+interface PersonsProps {
+    item: Person;
+}
+
+interface PersonDetails {
+    profile_path: string;
+    name: string;
+    biography: string;
+    place_of_birth: string;
+    gender: number;
+    birthday: string;
+    known_for_department: string;
+    popularity: number;
+    // Add other expected properties
+}
+
+const PersonScreen: React.FC<PersonsProps> = ({ item }) => {
     const [isFavourate, setIsFavourate] = useState(false);
     const [personMovies, setPersonMovies] = useState([]);
     const [loading, setLoading] = useState(false);
-    const [personDetails, setPersonDetails] = useState({})
+    const [personDetails, setPersonDetails] = useState<PersonDetails | null>(null);
 
     useEffect(() => {
         setLoading(true);
@@ -25,13 +47,13 @@ const PersonScreen = ({ item }) => {
         getPersonMovies(item?.id);
     }, [item])
 
-    const getPersonDetails = async (id) => {
+    const getPersonDetails = async (id: number) => {
         const data = await fetchPersonDetails(id);
         setPersonDetails(data);
         setLoading(false)
     }
 
-    const getPersonMovies = async (id) => {
+    const getPersonMovies = async (id: number) => {
         const data = await fetchPersonMovies(id);
         if (data && data?.cast) setPersonMovies(data?.cast);
     }

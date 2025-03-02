@@ -5,8 +5,20 @@ import React from 'react'
 import { Dimensions, Image, ScrollView, Text, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native';
 
 var { width, height } = Dimensions.get('window');
+interface Movie {
+    id: number;
+    title: string;
+    poster_path: string;
+    // Add other relevant properties
+}
 
-const MovieList = ({ data, title, hideSeeAll }) => {
+interface MovieListsProps {
+    data: Movie[];
+    title: string;
+    hideSeeAll: boolean;
+}
+
+const MovieList: React.FC<MovieListsProps> = ({ data, title, hideSeeAll }) => {
 
     return (
         <View className='mb-8 space-y-4'>

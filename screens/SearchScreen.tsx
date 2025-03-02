@@ -8,12 +8,18 @@ import { fallbackMoviePoster, image185, searchMovies } from '@/api/moviedb';
 
 var { width, height } = Dimensions.get('window');
 
+interface SearchResults {
+    poster_path: string;
+    title: string;
+    // Add other expected properties
+}
+
 const SearchScreen = () => {
-    const [results, setResults] = useState([]);
+    const [results, setResults] = useState<SearchResults[]>([]);
     const [loading, setLoading] = useState(false);
     const [isFocused, setIsFocused] = useState(false);
 
-    const handleSearch = (value) => {
+    const handleSearch = (value: string) => {
         if (value && value?.length>2) {
             setLoading(true);
             searchMovies({
