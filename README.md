@@ -49,4 +49,4 @@ Join our community of developers creating universal apps.
 - [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
 - [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
 
-- ![image alt] (https://github.com/zeyakarim/movie_app/blob/082aee34a473e05bb7db97e1d603d9cc2c345f6e/Home%20Screen.png)
+- ![image alt] (https://github.com/zeyakarim/movie_app/blob/082aee34a473e05bb7db97e1d603d9cc2c345f6e/Home%20Screen.png?raw=true)
