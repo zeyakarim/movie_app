@@ -9,6 +9,7 @@ interface Movie {
     id: number;
     title: string;
     poster_path: string;
+    primaryImage: string;
     // Add other relevant properties
 }
 
@@ -57,7 +58,7 @@ const MovieList: React.FC<MovieListsProps> = ({ data, title, hideSeeAll }) => {
                                <View className='space-y-1 mr-4'>
                                     <Image 
                                         // source={require('../assets/images/quantumania.jpeg')}
-                                        source={{ uri: image185(item?.poster_path) || fallbackMoviePoster}}
+                                        source={{ uri: item?.primaryImage || fallbackMoviePoster}}
                                         className='rounded-3xl'
                                         style={{ width: width*0.33, height: height*0.22}}
                                     />

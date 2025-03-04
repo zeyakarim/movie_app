@@ -24,18 +24,18 @@ const HomeScreen = () => {
 
     const getTrendingMovies = async () => {
         const data = await fetchTrendingMovies();
-        if (data && data?.results) setTrendingMovies(data?.results);
+        if (data) setTrendingMovies(data);
         setLoading(false)
     }
 
     const getUpcomingMovies = async () => {
         const data = await fetchUpcomingMovies();
-        if (data && data?.results) setUpcomingMovies(data?.results);
+        if (data) setUpcomingMovies(data);
     }
 
     const getTopRatedMovies = async () => {
         const data = await fetchTopRatedMovies();
-        if (data && data?.results) setTopRatedMovies(data?.results);
+        if (data) setTopRatedMovies(data);
     }
 
     return (

@@ -14,6 +14,8 @@ interface Movies {
     id: number;
     poster_path: string;
     title: string;
+    primaryTitle: string;
+    primaryImage: string;
     // Add other expected properties
 }
 
@@ -34,7 +36,7 @@ const MoviesScreen: React.FC<MoviesScreenProps> = ({ title }) => {
         const getFunction = title === 'Upcoming Movie' ? fetchUpcomingMovies : fetchTopRatedMovies;
         const data = await getFunction();
         setLoading(false);
-        if (data && data?.results) setMovies(data?.results)
+        if (data) setMovies(data)
     }
 
     return (
@@ -71,11 +73,11 @@ const MoviesScreen: React.FC<MoviesScreenProps> = ({ title }) => {
                                             <Image 
                                                 className='rounded-3xl'
                                                 // source={require('../assets/images/captainmarvel.jpg')}
-                                                source={{uri: image185(item?.poster_path) || fallbackMoviePoster}}
+                                                source={{uri: item?.primaryImage || fallbackMoviePoster}}
                                                 style={{width: width*0.44, height: height*0.3}}
                                             />
                                             <Text className='text-neutral-300 ml-1'>
-                                                {item?.title?.length>22 ? item?.title?.slice(0,22)+'...' : item?.title}
+                                                {item?.primaryTitle?.length>22 ? item?.primaryTitle?.slice(0,22)+'...' : item?.primaryTitle}
                                             </Text>
                                         </View>
                                     </TouchableWithoutFeedback>

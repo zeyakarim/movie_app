@@ -12,6 +12,8 @@ interface SearchResults {
     id: number;
     poster_path: string;
     title: string;
+    primaryImage: string;
+    primaryTitle: string;
     // Add other expected properties
 }
 
@@ -23,11 +25,26 @@ const SearchScreen = () => {
     const handleSearch = (value: string) => {
         if (value && value?.length>2) {
             setLoading(true);
+            // params: {
+            //     type: 'movie',
+            //     genre: 'Drama',
+            //     genres: 'Drama',
+            //     rows: '25',
+            //     sortOrder: 'ASC',
+            //     sortField: 'id'
+            //   },
             searchMovies({
-                query: value, 
-                include_adult: 'false',
-                language: 'en-US',
-                page: '1'
+                // query: value, 
+                // include_adult: 'false',
+                // language: 'en-US',
+                // page: '1'
+                type: 'movie',
+                genre: 'Drama',
+                genres: ['Drama'],
+                rows: '25',
+                sortOrder: 'ASC',
+                sortField: 'id',
+                query: value
             }).then((data) => {
                 setLoading(false)
                 if (data && data?.results) setResults(data?.results)
@@ -90,11 +107,11 @@ const SearchScreen = () => {
                                             <Image 
                                                 className='rounded-3xl'
                                                 // source={require('../assets/images/captainmarvel.jpg')}
-                                                source={{uri: image185(item?.poster_path) || fallbackMoviePoster}}
+                                                source={{uri: item?.primaryImage || fallbackMoviePoster}}
                                                 style={{width: width*0.44, height: height*0.3}}
                                             />
                                             <Text className='text-neutral-300 ml-1'>
-                                                {item?.title?.length>22 ? item?.title?.slice(0,22)+'...' : item?.title}
+                                                {item?.primaryTitle?.length>22 ? item?.primaryTitle?.slice(0,22)+'...' : item?.primaryTitle}
                                             </Text>
                                         </View>
                                     </TouchableWithoutFeedback>

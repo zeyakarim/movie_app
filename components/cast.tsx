@@ -3,7 +3,19 @@ import { router } from 'expo-router';
 import React from 'react'
 import { Image, ScrollView, Text, TouchableOpacity, View } from 'react-native';
 
-const Cast = ({ cast }) => {
+interface Cast {
+    id: number;
+    characters: string[];
+    fullName: string;
+    profile_path: string;
+    // Add other relevant properties
+}
+
+interface CastProps {
+    cast: Cast[];
+}
+
+const Cast: React.FC<CastProps> = ({ cast }) => {
 
     return (
         <View className='my-6 '>
@@ -32,10 +44,10 @@ const Cast = ({ cast }) => {
                                 />
                             </View>
                             <Text className='text-white text-xs mt-1'>
-                                {person?.character?.length>10 ? person?.character?.slice(0,10)+'...': person?.character}
+                                {person?.characters?.[0]?.length >10 ? person?.characters?.[0]?.slice(0,10)+'...': person?.characters?.[0]}
                             </Text>
                             <Text className='text-neutral-400 text-xs mt-1'>
-                                {person?.original_name?.length>10 ? person?.original_name?.slice(0,10)+'...': person?.original_name}
+                                {person?.fullName?.length>10 ? person?.fullName?.slice(0,10)+'...': person?.fullName}
                             </Text>
                         </TouchableOpacity>
                     )

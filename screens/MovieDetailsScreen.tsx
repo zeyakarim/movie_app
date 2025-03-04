@@ -8,7 +8,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import Cast from '@/components/cast';
 import MovieList from '@/components/movieList';
 import Loading from '@/components/loading';
-import { fallbackMoviePoster, fetchMovieCredits, fetchMovieDetails, fetchSimilarMovies, image500 } from '@/api/moviedb';
+import { fallbackMoviePoster, fetchMostPopularMovies, fetchMovieCredits, fetchMovieDetails, image500 } from '@/api/moviedb';
 
 var { width, height } = Dimensions.get('window')
 const ios = Platform.OS === 'ios';
@@ -24,20 +24,24 @@ interface Genre {
 }
 interface Movie {
     id: number;
-    title: string;
+    primaryTitle: string;
     poster_path: string;
     status: string;
     release_date: string;
     runtime: number;
     genres: Genre[];
     overview: string;
+    primaryImage: string;
+    releaseDate: string;
+    runtimeMinutes: number;
+    description: string;
     // Add other relevant properties
 }
 
 const MovieDetailsScreen: React.FC<MovieProps> = ({ item }) => {
     const [isFavourate, setIsFavourate] = useState(false);
     const [cast, setCast] = useState([])
-    const [similarMovies, setSimilarMovies] = useState([])
+    const [mostPopularMovies, setMostPopularMovies] = useState([])
     const [loading, setLoading] = useState(false)
     const [movie, setMovie] = useState<Movie | null>(null);
 
@@ -45,7 +49,7 @@ const MovieDetailsScreen: React.FC<MovieProps> = ({ item }) => {
         setLoading(true);
         getMovieDetails(item?.id);
         getMovieCredits(item?.id);
-        getSimilarMovies(item?.id)
+        getPopularMovies(item?.id)
     }, [item])
 
     const getMovieDetails = async (id: number) => {
@@ -56,13 +60,15 @@ const MovieDetailsScreen: React.FC<MovieProps> = ({ item }) => {
 
     const getMovieCredits = async (id: number) => {
         const data = await fetchMovieCredits(id)
-        if (data && data?.cast) setCast(data?.cast)
+        if (data) setCast(data)
     }
 
-    const getSimilarMovies = async (id: number) => {
-        const data = await fetchSimilarMovies(id)
-        if (data && data?.results) setSimilarMovies(data?.results)
+    const getPopularMovies = async (id: number) => {
+        const data = await fetchMostPopularMovies()
+        if (data) setMostPopularMovies(data)
     }
+
+    const description = 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Quaerat nam voluptatibus nobis dolore harum. Odio, possimus est saepe recusandae iste nulla amet, quis earum commodi vel nesciunt quisquam laborum voluptate?'
 
     return (
         <ScrollView
@@ -85,7 +91,7 @@ const MovieDetailsScreen: React.FC<MovieProps> = ({ item }) => {
                     <View>
                         <Image 
                             // source={require('../assets/images/quantumania.jpeg')}
-                            source={{uri: image500(movie?.poster_path) || fallbackMoviePoster}}
+                            source={{uri: movie?.primaryImage || fallbackMoviePoster}}
                             style={{width, height: height*0.55}}
                         />
                         <LinearGradient 
@@ -103,12 +109,12 @@ const MovieDetailsScreen: React.FC<MovieProps> = ({ item }) => {
             <View style={{marginTop:- (height*0.09)}} className='space-y-3'>
                 {/* movie title */}
                 <Text className='text-white text-center text-3xl font-bold tracking-wider'>
-                    {movie?.title}
+                    {movie?.primaryTitle}
                 </Text>
 
                 {movie?.id ? (
                     <Text className='text-neutral-400 font-semibold text-base text-center'>
-                        {movie?.status} • {movie?.release_date?.split('-')[0]} • {movie?.runtime} min
+                        {new Date().toISOString().split("T")[0] > movie?.releaseDate ? "Released" : "Not Released"} • {movie?.releaseDate?.split('-')[0]} • {movie?.runtimeMinutes} min
                     </Text>
                 ) : null}
 
@@ -118,14 +124,15 @@ const MovieDetailsScreen: React.FC<MovieProps> = ({ item }) => {
                         let showDot = index + 1 !== movie?.genres?.length
                         return (
                             <Text key={index} className='text-neutral-400 font-semibold text-base text-center'>
-                                {genre?.name} {showDot ? '•': null}
+                                {genre} {showDot ? '•': null}
                             </Text>
                         )
                     })}
                 </View>
 
                 <Text className='text-neutral-400 mx-4 tracking-wide'>
-                    {movie?.overview}
+                    
+                    {movie?.description || description}
                 </Text>
             </View>
 
@@ -133,7 +140,7 @@ const MovieDetailsScreen: React.FC<MovieProps> = ({ item }) => {
             {cast?.length > 0 && <Cast cast={cast} /> }
 
             {/* similar movies */}
-            {similarMovies?.length > 0 && <MovieList data={similarMovies} title='Similar Movie' hideSeeAll={true} /> }
+            {mostPopularMovies?.length > 0 && <MovieList data={mostPopularMovies} title='Most Popular Movie' hideSeeAll={true} /> }
         </ScrollView>
     )
 }
